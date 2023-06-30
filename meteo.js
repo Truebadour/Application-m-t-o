@@ -1,15 +1,19 @@
-// let apiData = {};
+
+// Clé de l'API "weatherapi.com", ne pas modifier !
+let apiKey = "d7110859a3d64a4e86695518232306"
+
+
 
 const fetchApiData = async () => {
   await fetch("./conf.json")
     .then((res) => res.json())
     .then((res) => (data = res));
-  await fetch(
-    `https://api.weatherapi.com/v1/current.json?key=${data.apiKey}&q=${data.ville}&aqi=no`
+
+await fetch(
+    `https://api.weatherapi.com/v1/current.json?key=${apiKey}&q=${data.ville}&aqi=no`
   )
     .then((res) => res.json())
     .then((res) => (apiData = res));
-  // console.log(apiData);
   writeTest();
   showMe();
 };
@@ -51,24 +55,22 @@ const writeTest = () => {
     else {
         imageSource = 'icon_error.svg';
       };
-
-
-
+      
     console.log(imageSource);
 
-  //  await fetchApiData();
+
   document.getElementById("city_name").innerText = city;
-  document.getElementById("temp_real").innerText = Math.round(tempReal) + " °C";
-  document.getElementById("temp_feel_value").innerText =
-    Math.round(tempFeel) + "°C ressentis";
+  document.getElementById("temp_real").innerText = Math.round(tempReal) + "°C";
+  document.getElementById("temp_feel_value").innerText = "Ressenti : " +
+    Math.round(tempFeel) + "°C";
   document.getElementById("humidity_value").innerText = humidity + " %";
   document.getElementById("wind_value").innerText = Math.round(wind) + " km/h";
-  document.getElementById("weather_icon").innerHTML = `<img src="./assets/${imageSource}">`;
+  document.getElementById("weather_icon").innerHTML = `<img id="weather_icon_container" src="./assets/${imageSource}">`;
 };
 
 window.addEventListener("load", fetchApiData);
 // fonction de rafraîchissement de la page toutes les heures
-window.setInterval("refresh()", 3600000); // CHANGER 3600 par le nombre de secondes pour tester !
+window.setInterval("refresh()", 3600000); // exprimé en millisecondes. Testé et fonctionnel avec 
 
 //fonction de rafraîchissement de la page
 function refresh() {
